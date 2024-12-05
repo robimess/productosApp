@@ -4,22 +4,21 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ForgotPasswordPageRoutingModule } from './forgot-password-routing.module';
+import { SignUpPageRoutingModule } from './sign-up-routing.module';
 
-import { ForgotPasswordPage } from './forgot-password.page';
+import { SignUpPage } from './sign-up.page';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { FirebaseService } from 'src/app/services/firebase.service';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ForgotPasswordPageRoutingModule,
+    SignUpPageRoutingModule,
     SharedModule,
     ReactiveFormsModule
+    
   ],
-  providers:[FirebaseService],
-  declarations: [ForgotPasswordPage]
+  declarations: [SignUpPage]
 })
-export class ForgotPasswordPageModule {}
+export class SignUpPageModule {}

@@ -1,4 +1,4 @@
-<app-header title="Login"></app-header>
+<app-header title="Login" backButton="/auth"></app-header>
 <ion-content>
 
 <div class="d-flex-center">
@@ -6,6 +6,19 @@
     <form [formGroup]="form" class="auth-form" (ngSubmit)="submit()" (keypress.enter)="submit()">
         
         <app-logo></app-logo>
+          <!--NOMBRE-->
+            <app-custom-input 
+            autocomplete="name" 
+            icon="person-outline" 
+            [control]="form.controls.name"  
+            type="name"
+            label="Nombre"
+            ></app-custom-input>
+
+            <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
+                <div *ngIf="form.controls.name.errors?.['required']" style="padding: 20px;">El correo es requerido</div>
+                <div *ngIf="form.controls.name.errors?.['minlenght']" style="padding: 20px;">El nombre debe tener al menos 4 caracteres</div>
+            </div>
             <!--EMAIL-->
             <app-custom-input 
             autocomplete="email" 
@@ -19,8 +32,8 @@
                 <div *ngIf="form.controls.email.errors?.['required']" style="padding: 20px;">El correo es requerido</div>
                 <div *ngIf="form.controls.email.errors?.['email']" style="padding: 20px;">El correo no es valido</div>
             </div>
-            <!--PASSWORD-->                                      
-            <app-custom-input  
+            <!--PASSWORD-->
+            <app-custom-input 
             icon="lock-closed-outline"
             [control]="form.controls.password"
             type="password"
@@ -31,16 +44,12 @@
                 <div *ngIf="form.controls.password.errors?.['required']" style="padding: 20px;">La contraseña es requerida</div>
             </div>
 
-            <p class="ion-text-end" routerLink="forgot-password">¿Olvidaste tu contraseña?</p>
-
             <ion-button expand="block" mode="ios" class="submit" type="submit" [disabled]="form.invalid">
-                Ingresar
-            </ion-button>
-            
-            <ion-button class="ion-margin-top" routerLink="sign-up" expand="block" mode="ios" fill="outline">
                 Registrate
                 <ion-icon slot="end" name="person-add-outline"></ion-icon>
             </ion-button>
+
     </form>    
-</div>   
+</div>
+    
 </ion-content>
