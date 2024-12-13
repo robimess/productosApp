@@ -1,28 +1,27 @@
-import { inject, Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
 import { UtilsService } from '../services/utils.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
+export const authGuard: CanActivateFn = (route, state) => {
+  const firebaseService = inject(FirebaseService);
+  const utilsService = inject(UtilsService);
 
-  firebaseService = inject(FirebaseService);
-  utilsService = inject(UtilsService);
+  const user = localStorage.getItem('user');
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
-    return new Promise((resolve)=>{
-      this.firebaseService.getAuth().onAuthStateChanged((auth)=>{
-        if (auth) {
-          resolve(true)
+  return new Promise<boolean>((resolve) => {
+    firebaseService.getAuth().onAuthStateChanged((auth) => {
+      if (auth) {
+        if (user) {
+          resolve(true);
+        } else {
+          utilsService.routerLink('/auth');
+          resolve(false);
         }
-      })
-    })
-  }
-
-}
+      } else {
+        utilsService.routerLink('/main/home'); // Redirige al usuario si no está autenticado
+        resolve(false);
+      }
+    });
+  });
+};
